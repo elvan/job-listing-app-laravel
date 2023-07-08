@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Listing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class ListingController extends Controller
@@ -79,5 +80,21 @@ class ListingController extends Controller
         $listing->update($formFields);
 
         return back()->with('message', 'Listing updated successfully!');
+    }
+
+    // Delete Listing
+    public function destroy(Listing $listing)
+    {
+        // Make sure logged in user is owner
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        if ($listing->logo && Storage::disk('public')->exists($listing->logo)) {
+            Storage::disk('public')->delete($listing->logo);
+        }
+        $listing->delete();
+
+        return redirect('/')->with('message', 'Listing deleted successfully');
     }
 }
