@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.7.0",
+        "itsgoingd/clockwork": "^5.1",
         "laravel/framework": "^v10.14.1",
         "laravel/sanctum": "^v3.2.5",
         "laravel/tinker": "^v2.8.1"
